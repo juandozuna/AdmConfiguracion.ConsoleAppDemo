@@ -21,6 +21,7 @@ namespace ConfigManagementDemo
             {
                 Console.WriteLine($"{i + 1}) {_menuItems[i]}");
             }
+            Console.WriteLine($"{_menuItems.Count + 1}) Exit Application");
         }
 
         public int GetMenuOption()
@@ -43,6 +44,11 @@ namespace ConfigManagementDemo
             {
                 NotValidOption();
                 return -1;
+            }
+
+            if (option == _menuItems.Count + 1) 
+            {
+                Application.Exit();
             }
 
             return option;
