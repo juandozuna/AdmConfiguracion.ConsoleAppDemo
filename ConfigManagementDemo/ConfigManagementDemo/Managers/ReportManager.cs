@@ -32,8 +32,10 @@ namespace ConfigManagementDemo
                 _consoleManager.LoadFirstScreen();
             }
 
+            Console.WriteLine("HIERARCHY");
             CINode node = BuiildNodesForCI(new CINode {Value = foundCi});
             PrintNodeToEraseForCi(node);
+            Console.WriteLine();
             
             _consoleManager.PressAnyKeyMessage();
             _consoleManager.LoadFirstScreen();
@@ -52,9 +54,12 @@ namespace ConfigManagementDemo
                 _consoleManager.PressAnyKeyMessage("CI was not found in the system...");
                 _consoleManager.LoadFirstScreen();
             }
-
+            Console.WriteLine();
+            
+            Console.WriteLine("HIERARCHY");
             CINode node = BuiildNodesForCI(new CINode {Value = foundCi});
             PrintNodeToDeprecate(node, node.Value.Name);
+            Console.WriteLine();
             
             _consoleManager.PressAnyKeyMessage();
             _consoleManager.LoadFirstScreen();
@@ -65,21 +70,21 @@ namespace ConfigManagementDemo
             var children = _dbContext.DependencyItems.Where(di => di.BaseCiName == node.Value.Name)
                 .Select(di => new CINode {Value = di.DependencyCi}).ToList();
 
-            if (!children.Any())
-                return null;
-            
-            var resultNodes = new List<CINode>();
-            
-            foreach (var ciNode in children)
+            if (children.Count() > 0)
             {
-                var fnode = BuiildNodesForCI(ciNode, level + 1);
-                if (fnode != null)
-                    resultNodes.Add(fnode);
-                else 
-                    resultNodes.Add(ciNode);
-            }
+                var resultNodes = new List<CINode>();
 
-            node.Nodes = resultNodes;
+                foreach (var ciNode in children)
+                {
+                    var fnode = BuiildNodesForCI(ciNode, level + 1);
+                    if (fnode != null)
+                        resultNodes.Add(fnode);
+                    else
+                        resultNodes.Add(ciNode);
+                }
+
+                node.Nodes = resultNodes;
+            }
 
             if (level != 0)
                 return null;

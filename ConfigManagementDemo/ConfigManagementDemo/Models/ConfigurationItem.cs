@@ -47,7 +47,7 @@ namespace ConfigManagementDemo.Models
             return $"{Name} in charge of -> {Responsible}";
         }
 
-        public string ErasingMessage() => $"You must speak to {Responsible} to delete ({Name})44";
+        public string ErasingMessage() => $"You must speak to {Responsible} to delete ({Name})";
 
 
         public string DeprecateMessage(string deprecating) =>
