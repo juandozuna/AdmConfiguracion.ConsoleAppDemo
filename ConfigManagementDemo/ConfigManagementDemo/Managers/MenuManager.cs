@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System;    
 using System.Collections.Generic;
 using ConfigManagementDemo.Helpers;
 
@@ -32,7 +31,7 @@ namespace ConfigManagementDemo
             int option = 0;
 
             bool result = Int32.TryParse(input, out option);
-            bool betweenValidRange = option > 0 && option <= _menuItems.Count;
+            bool betweenValidRange = option > 0 && option <= _menuItems.Count + 1;
 
             if (!result)
             {
@@ -48,7 +47,7 @@ namespace ConfigManagementDemo
 
             if (option == _menuItems.Count + 1) 
             {
-                Application.Exit();
+                Environment.Exit(0);
             }
 
             return option;
