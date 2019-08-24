@@ -88,39 +88,45 @@ namespace ConfigManagementDemo
         
         private void AddNewCiOption()
         {
-            var configManager = new ConfigItemManager();
+            var configManager = new ConfigItemManager(this);
             configManager.Create();
         }
         private void ListAllCIs()
         {
-            var configManager = new ConfigItemManager();
-            configManager.List();
+            var configManager = new ConfigItemManager(this);
+            configManager.TableList();
         }
 
         private void AddDependencyToCi()
         {
-            
+            var configManager = new ConfigItemManager(this);
+            configManager.AddDependencyToCi();
         }
 
         private void ImpactOfErasing()
         {
-            
+            var reportManager = new ReportManager(this);
+            reportManager.ErasingImpact();
         }
 
 
         private void ImpactOfDeprecating()
         {
-            
+            var reportManager = new ReportManager(this);
+            reportManager.DeprecateImpact();
         }
 
         private void ImpactOfUpdate()
         {
-            
+            var reportManager = new ReportManager(this);
         }
 
         private void Credits()
         {
-            
+            Header("CREDITS");
+            Console.WriteLine("This is a Demo App Build By JUAN OZUNA");
+            PressAnyKeyMessage("Feel free to give suggestions in GITHUB");
+            LoadFirstScreen();
         }
 
         public void Clear()

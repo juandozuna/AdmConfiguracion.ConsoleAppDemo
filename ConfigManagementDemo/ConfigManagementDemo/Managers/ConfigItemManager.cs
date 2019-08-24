@@ -10,9 +10,9 @@ namespace ConfigManagementDemo
         private readonly ConsoleManager _consoleManager;
         private readonly AppDbContext _dbContext;
         private readonly string _goBackInput = "999";
-        public ConfigItemManager()
+        public ConfigItemManager(ConsoleManager consoleManager)
         {
-            _consoleManager = new ConsoleManager();
+            _consoleManager = consoleManager;
             _dbContext = new AppDbContext();
         }
 
@@ -34,7 +34,7 @@ namespace ConfigManagementDemo
             
         }
 
-        public void List()
+        public void TableList()
         {
             Table table = new Table();
             table.SetHeaders("Name", "Description", "Responsible", "Version", "Dependencies");
@@ -50,6 +50,56 @@ namespace ConfigManagementDemo
             Console.WriteLine(tableString);
             _consoleManager.PressAnyKeyMessage();
             GoBack();
+        }
+
+        public void AddDependencyToCi()
+        {
+            _consoleManager.Header("Add Dependency to CI");
+            MicroTableList();
+            Console.Write("Write name of CI you want to add dependency to: ");
+            string name = Console.ReadLine()?.ToUpper();
+
+            var foundCi = _dbContext.ConfigurationItems.Find(name);
+            if (foundCi == null)
+            {
+                _consoleManager.PressAnyKeyMessage("CI was not found in the system...");
+                GoBack();
+            }
+            
+            Console.Write("Dependency: ");
+            name = Console.ReadLine()?.ToUpper();
+            var dependency = _dbContext.ConfigurationItems.Find(name);
+            if (foundCi == null)
+            {
+                _consoleManager.PressAnyKeyMessage("You should add the CI first before assigning as dependency...");
+                GoBack();
+            }
+
+            DependencyItem dependencyItem = new DependencyItem
+            {
+                BaseCiName = foundCi.Name,
+                DependencyCiName = dependency.Name
+            };
+
+            _dbContext.DependencyItems.Add(dependencyItem);
+            _dbContext.SaveChanges();
+            
+            _consoleManager.PressAnyKeyMessage("Dependency Assigned Successfully");
+            GoBack();
+        }
+
+        public void MicroTableList()
+        {
+            Console.WriteLine("Configuration Items");
+            var cis = _dbContext.ConfigurationItems;
+            Table table = new Table();
+            table.SetHeaders("NAME", "VERSION");
+            foreach (var ci in cis)
+            {
+                table.AddRow(ci.Name, ci.Version);
+            }
+            
+            Console.WriteLine(table.ToString());
         }
         private ConfigurationItem GetCIFromUserInput()
         {

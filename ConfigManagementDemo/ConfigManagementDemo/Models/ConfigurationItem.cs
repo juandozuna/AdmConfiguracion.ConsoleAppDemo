@@ -41,5 +41,16 @@ namespace ConfigManagementDemo.Models
         /// </summary>
         public IEnumerable<DependencyItem> ItemsThatDepend { get; set; }
 
+
+        public override string ToString()
+        {
+            return $"{Name} in charge of -> {Responsible}";
+        }
+
+        public string ErasingMessage() => $"You must speak to {Responsible} to delete ({Name})44";
+
+
+        public string DeprecateMessage(string deprecating) =>
+            $"You should tell {Responsible} about {Name} to deprecate {deprecating}";
     }
 }
