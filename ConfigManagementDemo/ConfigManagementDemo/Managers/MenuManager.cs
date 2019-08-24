@@ -28,7 +28,7 @@ namespace ConfigManagementDemo
             Console.WriteLine("------------------------");
             Console.Write("Select an option:  ");
             string input = Console.ReadLine();
-            int option = 0;
+            int option;
 
             bool result = Int32.TryParse(input, out option);
             bool betweenValidRange = option > 0 && option <= _menuItems.Count + 1;

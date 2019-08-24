@@ -6,7 +6,7 @@ namespace ConfigManagementDemo
     {
         static void Main(string[] args)
         {
-            var controller = new ConsoleController();
+            var controller = new ConsoleManager();
             controller.Start();
         }
     }
